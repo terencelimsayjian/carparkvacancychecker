@@ -18,10 +18,6 @@ class CarparkvacancycheckerApplicationIntegrationTest {
   private TestRestTemplate testRestTemplate;
 
   @Test
-  void contextLoads() {
-  }
-
-  @Test
   void shouldHaveActuatorHealthEndpoint() throws Exception {
     ResponseEntity<String> responseEntity = testRestTemplate.getForEntity("/actuator/health", String.class);
     String body = responseEntity.getBody();

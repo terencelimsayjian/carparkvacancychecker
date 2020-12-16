@@ -2,7 +2,6 @@
 
 Fun app to check if there are vacant car park slots near our unit!
 
-
 ## Run tests
 ```shell script
 ./gradlew test
