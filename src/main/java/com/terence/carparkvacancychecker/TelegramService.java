@@ -2,12 +2,14 @@ package com.terence.carparkvacancychecker;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.DeleteWebhook;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.request.SetWebhook;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TelegramService {
 
   // Next step - Receive message and response with image
@@ -33,17 +36,19 @@ public class TelegramService {
     SetWebhook setWebhookRequest = new SetWebhook()
         .url("https://carparkvacancychecker-mpuwcgmk4a-as.a.run.app/webhook");
 
-    BaseResponse response = bot.execute(setWebhookRequest);
+    DeleteWebhook deleteWebhook = new DeleteWebhook();
+
+    BaseResponse response = bot.execute(deleteWebhook);
   }
 
   public void sendMessage(Update telegramUpdate) {
-
-
     Resource resource = resourceLoader.getResource("classpath:static/spongebob.png");
 
-    String chatId = Long.toString(telegramUpdate.message().chat().id());
-    String name = telegramUpdate.message().from().firstName();
+    String chatId = String.valueOf(telegramUpdate.message().chat().id());
+    String name = telegramUpdate.message().chat().firstName();
 
+    log.info(chatId);
+    log.info(name);
 
     try {
       InputStream input = resource.getInputStream();
@@ -65,5 +70,7 @@ public class TelegramService {
 
       List<Update> updates = response.updates();
 
+
+      System.out.println(updates);
     }
 }
