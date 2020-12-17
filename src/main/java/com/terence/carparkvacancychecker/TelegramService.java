@@ -36,9 +36,7 @@ public class TelegramService {
     SetWebhook setWebhookRequest = new SetWebhook()
         .url("https://carparkvacancychecker-mpuwcgmk4a-as.a.run.app/webhook");
 
-    DeleteWebhook deleteWebhook = new DeleteWebhook();
-
-    BaseResponse response = bot.execute(deleteWebhook);
+    BaseResponse response = bot.execute(setWebhookRequest);
   }
 
   public void sendMessage(Update telegramUpdate) {
