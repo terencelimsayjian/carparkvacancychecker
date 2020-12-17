@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 public class TelegramService {
 
+  // Next step - Receive message and response with image
 
   private TelegramBot bot;
 
