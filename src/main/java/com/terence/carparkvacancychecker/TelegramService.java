@@ -6,6 +6,8 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
+import com.pengrad.telegrambot.request.SetWebhook;
+import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -30,6 +32,11 @@ public class TelegramService {
   public TelegramService(ResourceLoader resourceLoader, @Value("${config.telegram_bot_token}") String botToken) {
     this.resourceLoader = resourceLoader;
     bot = new TelegramBot(botToken);
+
+    SetWebhook setWebhookRequest = new SetWebhook()
+        .url("https://carparkvacancychecker-mpuwcgmk4a-as.a.run.app/webhook");
+
+    BaseResponse response = bot.execute(setWebhookRequest);
   }
 
   public void sendMessage(String chatId) {
