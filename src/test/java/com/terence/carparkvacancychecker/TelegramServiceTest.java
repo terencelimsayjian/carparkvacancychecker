@@ -18,9 +18,4 @@ class TelegramServiceTest {
     assertTrue(true);
   }
 
-  @Test
-  void second() {
-    telegramService.sendMessage("243642451");
-    assertTrue(true);
-  }
 }
