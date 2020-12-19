@@ -1,23 +1,33 @@
 package com.terence.carparkvacancychecker;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.pengrad.telegrambot.model.Update;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 public class TelegramController {
   @Autowired
   TelegramService telegramService;
 
-  @PostMapping("/telegram")
-  String handleCallback() {
-    return "Hello World";
-  }
+  @Autowired
+  Gson gson;
 
+  @PostMapping(path = "/webhook", consumes = "application/json")
+  void handleWebhook(@RequestBody String telegramUpdateJson) {
+    Update update = null;
 
-  @PostMapping("/webhook")
-  void handleWebhook(Update telegramUpdate) {
-    telegramService.sendMessage(telegramUpdate);
+    try {
+      update = gson.fromJson(telegramUpdateJson, Update.class);
+    } catch (JsonSyntaxException e) {
+      log.error("Invalid JSON body in request", telegramUpdateJson);
+    }
+
+    telegramService.sendMessage(update);
   }
 }

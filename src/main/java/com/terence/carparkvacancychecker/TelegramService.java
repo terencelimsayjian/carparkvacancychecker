@@ -22,9 +22,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class TelegramService {
-
-  // Next step - Receive message and response with image
-
   private TelegramBot bot;
 
   private ResourceLoader resourceLoader;
@@ -61,14 +58,12 @@ public class TelegramService {
     }
   }
 
+  public void getUpdates () {
+    GetUpdates request = new GetUpdates();
+    GetUpdatesResponse response = bot.execute(request);
 
-    public void getUpdates () {
-      GetUpdates request = new GetUpdates();
-      GetUpdatesResponse response = bot.execute(request);
+    List<Update> updates = response.updates();
 
-      List<Update> updates = response.updates();
-
-
-      System.out.println(updates);
-    }
+    System.out.println(updates);
+  }
 }
