@@ -22,6 +22,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.github.pengrad:java-telegram-bot-api:5.0.1'
     implementation 'org.telegram:telegrambots:5.0.1'
+    implementation 'org.springframework.cloud:spring-cloud-dependencies:2020.0.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.0'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

@@ -2,6 +2,7 @@ server:
   port: ${PORT:8080}
 
 config:
-  telegram_bot_token: ${TELEGRAM_BOT_TOKEN:no-telegram-bot-token}
+  telegram_bot_token: 1497615821:AAFyO5S4BsAAkbo-ioDTBXWPouQOPqvyEjQ
+  camera_service_url: ${CAMERA_SERVICE_URL:no-camera-service-url}
 
 
