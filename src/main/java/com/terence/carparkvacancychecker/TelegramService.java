@@ -33,6 +33,11 @@ public class TelegramService {
         .url(baseUrl + WEBHOOK_ROUTE);
 
     BaseResponse response = bot.execute(setWebhookRequest);
+
+    log.info("Set up webhook request: " + response.isOk());
+    log.info(response.toString());
+    log.info(response.description());
+    log.info("Error code: " + response.errorCode());
   }
 
   public void sendMessage(Update telegramUpdate) {
