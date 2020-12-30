@@ -33,29 +33,25 @@ public class TelegramService {
         .url(baseUrl + WEBHOOK_ROUTE);
 
     BaseResponse response = bot.execute(setWebhookRequest);
-
-    log.info("Set up webhook request: " + response.isOk());
-    log.info(response.toString());
-    log.info(response.description());
-    log.info("Error code: " + response.errorCode());
+    log.info("Seting up webhook request: " + response.toString());
   }
 
   public void sendMessage(Update telegramUpdate) {
-    byte[] capturedImage = new byte[0];
-    try {
-      capturedImage = cameraClient.capture();
-    } catch (Exception e) {
-      log.error("Error encountered while capturing image", e);
-    }
-
     String chatId = String.valueOf(telegramUpdate.message().chat().id());
     String name = telegramUpdate.message().chat().firstName();
-
-    SendPhoto photoRequest = new SendPhoto(chatId, capturedImage);
-    SendMessage textMessage = new SendMessage(chatId, "alu " + name);
-
+    SendMessage textMessage = new SendMessage(chatId, "Request received, " + name);
     bot.execute(textMessage);
-    bot.execute(photoRequest);
+
+    try {
+      byte[]  capturedImage = cameraClient.capture();
+      SendPhoto photoRequest = new SendPhoto(chatId, capturedImage);
+      bot.execute(photoRequest);
+    } catch (Exception e) {
+      log.error("Error encountered while capturing image", e);
+
+      SendMessage errorMessage = new SendMessage(chatId, "Sorry, something went wrong.");
+      bot.execute(errorMessage);
+    }
   }
 
   public void getUpdates () {
