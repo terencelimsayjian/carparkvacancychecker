@@ -23,11 +23,12 @@ import java.util.List;
 @Slf4j
 public class TelegramService {
   private TelegramBot bot;
+  private final CameraClient cameraClient;
+  private final ResourceLoader resourceLoader;
 
-  private ResourceLoader resourceLoader;
-
-  public TelegramService(ResourceLoader resourceLoader, @Value("${config.telegram_bot_token}") String botToken) {
+  public TelegramService(ResourceLoader resourceLoader, @Value("${config.telegram_bot_token}") String botToken, CameraClient cameraClient) {
     this.resourceLoader = resourceLoader;
+    this.cameraClient = cameraClient;
     bot = new TelegramBot(botToken);
 
     SetWebhook setWebhookRequest = new SetWebhook()
@@ -39,6 +40,13 @@ public class TelegramService {
   public void sendMessage(Update telegramUpdate) {
     Resource resource = resourceLoader.getResource("classpath:static/spongebob.png");
 
+    byte[] capturedImage = new byte[0];
+    try {
+      capturedImage = cameraClient.capture();
+    } catch (Exception e) {
+      log.error("Error encountered while capturing image", e);
+    }
+
     String chatId = String.valueOf(telegramUpdate.message().chat().id());
     String name = telegramUpdate.message().chat().firstName();
 
@@ -48,13 +56,13 @@ public class TelegramService {
     try {
       InputStream input = resource.getInputStream();
       byte[] bytes = input.readAllBytes();
-      SendPhoto photoRequest = new SendPhoto(chatId, bytes);
+      SendPhoto photoRequest = new SendPhoto(chatId, capturedImage);
       SendMessage textMessage = new SendMessage(chatId, "alu " + name);
 
       bot.execute(textMessage);
       bot.execute(photoRequest);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("Error while reading input stream", e);
     }
   }
 

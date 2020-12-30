@@ -3,6 +3,6 @@ server:
 
 config:
   telegram_bot_token: 1497615821:AAFyO5S4BsAAkbo-ioDTBXWPouQOPqvyEjQ
-  camera_service_url: ${CAMERA_SERVICE_URL:no-camera-service-url}
+  camera_service_url: ${CAMERA_SERVICE_URL:116.87.160.19:8000}
 
 
