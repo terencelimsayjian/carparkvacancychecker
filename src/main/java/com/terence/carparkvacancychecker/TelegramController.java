@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class TelegramController {
+  public static final String WEBHOOK_ROUTE = "/webhook";
+
   @Autowired
   TelegramService telegramService;
 
   @Autowired
   Gson gson;
 
-  @PostMapping(path = "/webhook", consumes = "application/json")
+  @PostMapping(path = WEBHOOK_ROUTE, consumes = "application/json")
   void handleWebhook(@RequestBody String telegramUpdateJson) {
     Update update = null;
 
